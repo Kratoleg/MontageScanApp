@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonteuerScan"
                mc:Ignorable="d"
+<<<<<<< HEAD
+         Title="Montage LS-Scanner" Height="550" Width="430" FontSize="18"  ResizeMode="NoResize" Icon="/Icon.ico" >
+=======
          Title="Montage LS-Scanner" Height="550" Width="430" FontSize="18" ResizeMode="NoResize" >
+>>>>>>> cbcbd986cf2c63e0f7332940992c96a8c8a0bdd2
     <Grid>
 
         <Grid.RowDefinitions>

@@ -9,8 +9,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
+    <None Remove="Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+=======
+>>>>>>> cbcbd986cf2c63e0f7332940992c96a8c8a0bdd2
     <ProjectReference Include="..\MontageScanDataAccessLib\MontageScanDataAccessLib.csproj" />
     <ProjectReference Include="..\MontageScanLib\MontageScanLib.csproj" />
   </ItemGroup>
 
+<<<<<<< HEAD
+  <ItemGroup>
+    <Resource Include="Icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+=======
+>>>>>>> cbcbd986cf2c63e0f7332940992c96a8c8a0bdd2
 </Project>
