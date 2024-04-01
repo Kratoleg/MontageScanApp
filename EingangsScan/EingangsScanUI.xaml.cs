@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MontageScanDataAccessLib;
+using MontageScanLib;
+using MontageScanLib.Models;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MontageScanLib.Models;
-using MontageScanDataAccessLib;
-using MontageScanLib;
 
 
 
@@ -32,6 +23,7 @@ public partial class EingangsScanUI : Window
         InitializeComponent();
         sqlLieferschein = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
+        FillDisplayedList(angezeigteLieferscheine);
     }
 
     private string GetConnectionString(string name)
@@ -53,6 +45,12 @@ public partial class EingangsScanUI : Window
                 }
             };
         }
+    }
+    private void FillDisplayedList<T>(T liste) 
+    {
+        
+        List<T> lieferscheine = new List<T>();
+
     }
 
 
@@ -78,7 +76,6 @@ public partial class EingangsScanUI : Window
                     angezeigteLieferscheine.Add(lieferscheinScan);
                     UiCleanUp();
                 }
-
             }
             else
             {
@@ -116,7 +113,7 @@ public partial class EingangsScanUI : Window
             if (KontrolleTextBox.Text.inputCheckLieferschein())
             {
                 string searchResult = "Lieferschein nicht gefunden";
-                
+
 
                 try
                 {
@@ -124,7 +121,7 @@ public partial class EingangsScanUI : Window
                     if (found.Lieferschein == KontrolleTextBox.Text)
                     {
                         searchResult = $"{found.Lieferschein} \nKommissionierung: {found.EingangsTS} \nMontage: {found.MontageTS}";
-                        if(found.MitarbeiterId != null)
+                        if (found.MitarbeiterId != null)
                         {
                             SqlMitarbeiter ma = new SqlMitarbeiter(GetConnectionString("PrivateMontageScan"));
                             var mitarbeiter = ma.GetMiarbeiterById(found.MitarbeiterId.ToString());

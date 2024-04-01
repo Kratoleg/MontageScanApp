@@ -33,27 +33,24 @@ public partial class MonteuerScanUI : Window
     BindingList<DisplayedModel> angezeigteLieferscheine;
     public MonteuerScanUI(string connectionString)
     {
-        //GetConnectionString
+        
         _sqlMa = new SqlMitarbeiter(connectionString);
         _sqlLs = new SqlLieferschein(connectionString);
         angezeigteLieferscheine = new BindingList<DisplayedModel>();
         InitializeComponent();
-        //Display a few Values inside the ListBox
+        
         DisplayName.Text = "Kein Mitarbeiter";
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
 
     }
     public MonteuerScanUI()
     {
-        //GetConnectionString
         _sqlMa = new SqlMitarbeiter(GetConnectionString("PrivateMontageScan"));
         _sqlLs = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
         angezeigteLieferscheine = new BindingList<DisplayedModel>();
         InitializeComponent();
-        //Display a few Values inside the ListBox
         DisplayName.Text = "Kein Mitarbeiter";
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
-
     }
 
 
@@ -87,19 +84,16 @@ public partial class MonteuerScanUI : Window
 
     private void mitarbeiterLogin(string mitarbeiterChipId)
     {
-        //No LoggedIn
         if (_loggedInMitarbeiter == null)
         {
             _loggedInMitarbeiter = _sqlMa.GetMiarbeiterByChip(mitarbeiterChipId);
 
         }
-        //Current User Logged in
         else if (_loggedInMitarbeiter != null && _loggedInMitarbeiter.ChipId == mitarbeiterChipId)
         {
             _loggedInMitarbeiter = null;
 
         }
-        //different User logged in
         else if (_loggedInMitarbeiter != null && _loggedInMitarbeiter.ChipId != mitarbeiterChipId)
         {
             _loggedInMitarbeiter = _sqlMa.GetMiarbeiterByChip(mitarbeiterChipId);
@@ -123,7 +117,6 @@ public partial class MonteuerScanUI : Window
     {
         if (e.Key == Key.Enter)
         {
-            //Check for the Input if tis ChipID or LS
             if (inputTextBox.Text.inputCheckLieferschein())
             {
                 if (_loggedInMitarbeiter == null)
@@ -136,7 +129,6 @@ public partial class MonteuerScanUI : Window
                     saveLieferscheinToDisplayList();
                     ValidinputWarning();
                 }
-
             }
             else if (inputTextBox.Text.inputCheckChipId())
             {
