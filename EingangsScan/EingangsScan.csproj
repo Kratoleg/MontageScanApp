@@ -13,11 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+
     <ProjectReference Include="..\MontageScanDataAccessLib\MontageScanDataAccessLib.csproj" />
     <ProjectReference Include="..\MontageScanLib\MontageScanLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+
     <Resource Include="icon.ico" />
   </ItemGroup>
 

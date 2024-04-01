@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:MonteuerScan"
                mc:Ignorable="d"
          Title="Montage LS-Scanner" Height="550" Width="430" FontSize="18" ResizeMode="NoResize" Icon="/Icon.ico" >
+
     <Grid>
 
         <Grid.RowDefinitions>
