@@ -16,14 +16,14 @@ namespace EingangsScan;
 
 public partial class EingangsScanUI : Window
 {
-    BindingList<EingangsLieferscheinModel> angezeigteLieferscheine = new BindingList<EingangsLieferscheinModel>();
+    BindingList<AktiverLieferscheinModel> angezeigteLieferscheine = new BindingList<AktiverLieferscheinModel>();
     SqlLieferschein sqlLieferschein;
     public EingangsScanUI()
     {
         InitializeComponent();
         sqlLieferschein = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
-        FillDisplayedList(angezeigteLieferscheine);
+        FillDisplayedList();
     }
 
     private string GetConnectionString(string name)
@@ -46,11 +46,15 @@ public partial class EingangsScanUI : Window
             };
         }
     }
-    private void FillDisplayedList<T>(T liste) 
+    private void FillDisplayedList()
     {
-        
-        List<T> lieferscheine = new List<T>();
-
+        List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
+        tempList = sqlLieferschein.GetLast100RowsFromLieferschein();
+        tempList.Reverse();
+        foreach (var row in tempList)
+        {
+            angezeigteLieferscheine.Add(row);
+        }
     }
 
 
@@ -66,14 +70,14 @@ public partial class EingangsScanUI : Window
                 {
                     MessageBox.Show("Lieferschein bereits gescannt. Datum aktualisiert");
                     sqlLieferschein.UpdateLieferschein(lieferscheinScan);
-                    angezeigteLieferscheine.Add(lieferscheinScan);
+                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = lieferscheinScan.Lieferschein, EingangsTS = lieferscheinScan.EingangsTS });
 
                     UiCleanUp();
                 }
                 else
                 {
                     sqlLieferschein.LieferscheinEingangsScan(lieferscheinScan);
-                    angezeigteLieferscheine.Add(lieferscheinScan);
+                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = lieferscheinScan.Lieferschein, EingangsTS = lieferscheinScan.EingangsTS});
                     UiCleanUp();
                 }
             }
