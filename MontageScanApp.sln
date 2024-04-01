@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EingangsScan", "EingangsScan\EingangsScan.csproj", "{FF54599A-A2F5-4F10-80CA-ADDDA5BBC759}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonteurManager", "MonteurManager\MonteurManager.csproj", "{3C6F9E8C-4DD2-4E49-94CB-68A10D1889D0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonteuerScan", "MonteuerScan\MonteuerScan.csproj", "{120825B8-850B-4D10-91BC-7EC294DE58D7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MontageScanLib", "MontageScanLib\MontageScanLib.csproj", "{D8B0588E-70A6-4DF2-AA8D-645DBAB952E9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MontageScanDataAccessLib", "MontageScanDataAccessLib\MontageScanDataAccessLib.csproj", "{F80B36DB-00CA-4A3B-AF2C-03EF1058C822}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PrivateMontageDb", "PrivateMontageDb\PrivateMontageDb.sqlproj", "{0591DECF-C984-4181-97C9-9EC00DABD9C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FF54599A-A2F5-4F10-80CA-ADDDA5BBC759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF54599A-A2F5-4F10-80CA-ADDDA5BBC759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF54599A-A2F5-4F10-80CA-ADDDA5BBC759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF54599A-A2F5-4F10-80CA-ADDDA5BBC759}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C6F9E8C-4DD2-4E49-94CB-68A10D1889D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C6F9E8C-4DD2-4E49-94CB-68A10D1889D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C6F9E8C-4DD2-4E49-94CB-68A10D1889D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C6F9E8C-4DD2-4E49-94CB-68A10D1889D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{120825B8-850B-4D10-91BC-7EC294DE58D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{120825B8-850B-4D10-91BC-7EC294DE58D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{120825B8-850B-4D10-91BC-7EC294DE58D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{120825B8-850B-4D10-91BC-7EC294DE58D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8B0588E-70A6-4DF2-AA8D-645DBAB952E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B0588E-70A6-4DF2-AA8D-645DBAB952E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B0588E-70A6-4DF2-AA8D-645DBAB952E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B0588E-70A6-4DF2-AA8D-645DBAB952E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F80B36DB-00CA-4A3B-AF2C-03EF1058C822}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F80B36DB-00CA-4A3B-AF2C-03EF1058C822}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F80B36DB-00CA-4A3B-AF2C-03EF1058C822}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F80B36DB-00CA-4A3B-AF2C-03EF1058C822}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0591DECF-C984-4181-97C9-9EC00DABD9C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0591DECF-C984-4181-97C9-9EC00DABD9C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0591DECF-C984-4181-97C9-9EC00DABD9C6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{0591DECF-C984-4181-97C9-9EC00DABD9C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0591DECF-C984-4181-97C9-9EC00DABD9C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0591DECF-C984-4181-97C9-9EC00DABD9C6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {06266024-004F-40EA-A30A-7BC03AC72127}
+	EndGlobalSection
+EndGlobal

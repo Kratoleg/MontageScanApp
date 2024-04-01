@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="01534ea3-9404-4c0e-be68-601a1fa9a9a9" ChangeDateTime="04/01/2024 08:10:43">
+    <Property Name="ElementName" Value="[dbo].[Mitarbeiter].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Mitarbeiter]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MitarbeiterId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="f6c74ad3-728d-46ea-a2be-162980b2801c" ChangeDateTime="04/01/2024 08:10:50">
+    <Property Name="ElementName" Value="[dbo].[Lieferschein].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Lieferschein]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LieferscheinId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="515cf1fa-5595-4d46-bc5b-2de46cff6723" ChangeDateTime="04/01/2024 08:10:57">
+    <Property Name="ElementName" Value="[dbo].[Montage].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Montage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MontageId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7af7205e-8d76-4159-b8a0-e5a434f092f0" ChangeDateTime="04/01/2024 08:11:03">
+    <Property Name="ElementName" Value="[dbo].[Montage].[MitarbeiterID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Montage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="MitarbeiterId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e1de0e04-ffa2-4705-9df1-534f82af8e21" ChangeDateTime="04/01/2024 08:11:05">
+    <Property Name="ElementName" Value="[dbo].[Montage].[LieferscheinID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Montage]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LieferscheinId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2ee44ae4-66f0-4c5e-8bd3-b1f8bd07e8ff" ChangeDateTime="04/01/2024 08:11:14">
+    <Property Name="ElementName" Value="[dbo].[Mitarbeiter].[ChipID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Mitarbeiter]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="ChipId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="189b7d51-8509-466a-b625-93b964994c31" ChangeDateTime="04/01/2024 08:11:30">
+    <Property Name="ElementName" Value="[dbo].[Versand].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Versand]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VersandId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="cb8acae0-36c1-4df7-9e1e-66bfdf62a481" ChangeDateTime="04/01/2024 08:11:32">
+    <Property Name="ElementName" Value="[dbo].[Versand].[LieferscheinID]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Versand]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="LieferscheinId" />
+  </Operation>
+</Operations>
