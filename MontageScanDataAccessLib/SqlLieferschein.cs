@@ -1,6 +1,7 @@
 ﻿using MontageScanLib.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -48,6 +49,12 @@ public class SqlLieferschein
         {
             throw new Exception("no valid input");
         }
+    }
+
+    public List<AktiverLieferscheinModel> GetLast100RowsFromLieferschein()
+    {
+        string command = "select top 100 LieferscheinId, Lieferschein, EingangsTS, Storniert from dbo.Lieferschein order by EingangsTS DESC;";
+        return dbAccess.LoadData<AktiverLieferscheinModel, dynamic>(command, new {}, _connectionString); 
     }
 
 

@@ -56,4 +56,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="LieferscheinId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="32e4d133-7355-4fef-8325-007b837dd788" ChangeDateTime="04/02/2024 19:37:50">
+    <Property Name="ElementName" Value="[dbo].[Lieferschein].[Status]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Lieferschein]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Storniert" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="73e3a307-546c-45d3-b27f-06f640ea1560" ChangeDateTime="04/02/2024 19:37:53">
+    <Property Name="ElementName" Value="[dbo].[Lieferschein].[lieferschein]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Lieferschein]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Lieferschein" />
+  </Operation>
 </Operations>

@@ -8,7 +8,7 @@ namespace MontageScanLib.Models;
 
 public class EingangsLieferscheinModel : LieferscheinModel
 {
-    public DateTime EingangsTS { get; }
+    public DateTime EingangsTS { get;  }
 
     public EingangsLieferscheinModel(string input)
     {
@@ -16,6 +16,6 @@ public class EingangsLieferscheinModel : LieferscheinModel
         EingangsTS = DateTime.Now;
     }
 
-    public string StringEingangsTS
+     public string StringEingangsTS
     { get { return EingangsTS.ToString("dd.MM.yyyy HH:mm:ss"); } }
 }

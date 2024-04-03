@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using MontageScanDataAccessLib;
+using MontageScanLib;
+using MontageScanLib.Models;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using MontageScanLib.Models;
-using MontageScanDataAccessLib;
-using MontageScanLib;
 
 
 
@@ -25,13 +16,14 @@ namespace EingangsScan;
 
 public partial class EingangsScanUI : Window
 {
-    BindingList<EingangsLieferscheinModel> angezeigteLieferscheine = new BindingList<EingangsLieferscheinModel>();
+    BindingList<AktiverLieferscheinModel> angezeigteLieferscheine = new BindingList<AktiverLieferscheinModel>();
     SqlLieferschein sqlLieferschein;
     public EingangsScanUI()
     {
         InitializeComponent();
         sqlLieferschein = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
+        FillDisplayedList();
     }
 
     private string GetConnectionString(string name)
@@ -54,6 +46,16 @@ public partial class EingangsScanUI : Window
             };
         }
     }
+    private void FillDisplayedList()
+    {
+        List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
+        tempList = sqlLieferschein.GetLast100RowsFromLieferschein();
+        tempList.Reverse();
+        foreach (var row in tempList)
+        {
+            angezeigteLieferscheine.Add(row);
+        }
+    }
 
 
 
@@ -68,17 +70,16 @@ public partial class EingangsScanUI : Window
                 {
                     MessageBox.Show("Lieferschein bereits gescannt. Datum aktualisiert");
                     sqlLieferschein.UpdateLieferschein(lieferscheinScan);
-                    angezeigteLieferscheine.Add(lieferscheinScan);
+                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = lieferscheinScan.Lieferschein, EingangsTS = lieferscheinScan.EingangsTS });
 
                     UiCleanUp();
                 }
                 else
                 {
                     sqlLieferschein.LieferscheinEingangsScan(lieferscheinScan);
-                    angezeigteLieferscheine.Add(lieferscheinScan);
+                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = lieferscheinScan.Lieferschein, EingangsTS = lieferscheinScan.EingangsTS});
                     UiCleanUp();
                 }
-
             }
             else
             {
@@ -116,7 +117,7 @@ public partial class EingangsScanUI : Window
             if (KontrolleTextBox.Text.inputCheckLieferschein())
             {
                 string searchResult = "Lieferschein nicht gefunden";
-                
+
 
                 try
                 {
@@ -124,7 +125,7 @@ public partial class EingangsScanUI : Window
                     if (found.Lieferschein == KontrolleTextBox.Text)
                     {
                         searchResult = $"{found.Lieferschein} \nKommissionierung: {found.EingangsTS} \nMontage: {found.MontageTS}";
-                        if(found.MitarbeiterId != null)
+                        if (found.MitarbeiterId != null)
                         {
                             SqlMitarbeiter ma = new SqlMitarbeiter(GetConnectionString("PrivateMontageScan"));
                             var mitarbeiter = ma.GetMiarbeiterById(found.MitarbeiterId.ToString());
