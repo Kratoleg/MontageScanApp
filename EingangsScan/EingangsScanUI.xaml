@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:EingangsScan"
         mc:Ignorable="d"
         Title="Montage LS-Scanner" Height="550" Width="430" FontSize="18" Icon="/Icon.ico" >
-
     <Grid>
 
         <Grid.RowDefinitions>

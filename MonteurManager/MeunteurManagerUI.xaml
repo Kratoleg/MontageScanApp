@@ -5,11 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MonteurManager"
                mc:Ignorable="d"
-<<<<<<< HEAD
         Title="AddUpdateUser" Height="350" Width="400" Icon="/Icon.ico">
-=======
-        Title="AddUpdateUser" Height="350" Width="400">
->>>>>>> cbcbd986cf2c63e0f7332940992c96a8c8a0bdd2
+
     <Grid>
 
         <Grid.RowDefinitions>

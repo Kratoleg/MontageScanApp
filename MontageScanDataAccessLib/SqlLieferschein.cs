@@ -1,6 +1,7 @@
 ﻿using MontageScanLib.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -48,6 +49,12 @@ public class SqlLieferschein
         {
             throw new Exception("no valid input");
         }
+    }
+
+    public List<AktiverLieferscheinModel> GetLast100RowsFromLieferschein()
+    {
+        string command = "select top 100 LieferscheinId, Lieferschein, EingangsTS, Storniert from dbo.Lieferschein order by EingangsTS DESC;";
+        return dbAccess.LoadData<AktiverLieferscheinModel, dynamic>(command, new {}, _connectionString); 
     }
 
 
@@ -98,7 +105,7 @@ public class SqlLieferschein
     public SearchLieferschein SucheNachLieferschein(string lieferschein)
     {
         SearchLieferschein? output = new();
-        string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId inner join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @lieferschein;";
+        string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @lieferschein;";
 
         output = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { lieferschein }, _connectionString).FirstOrDefault();
 
