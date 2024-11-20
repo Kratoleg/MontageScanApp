@@ -102,14 +102,14 @@ public class SqlLieferschein
     
 
     //This Method muss nun völlig überarbeitet werden. 
-    public SearchLieferschein SucheNachLieferschein(string lieferschein)
+    public SearchLieferschein SucheNachLieferschein(SearchLieferschein input)
     {
         SearchLieferschein? output = new();
-        string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @lieferschein;";
+        string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId ls.Storniert from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @lieferschein;";
 
-        output = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { lieferschein }, _connectionString).FirstOrDefault();
+        input = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { input.Lieferschein }, _connectionString).FirstOrDefault();
 
-        if (output != null)
+        if (input.EingangsTS != null)
         {
             return output;
         }

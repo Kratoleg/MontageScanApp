@@ -36,11 +36,11 @@
         </StackPanel>
         <StackPanel Grid.Row="4" Grid.Column="3" Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Center"  >
 
-            <Button Content="Stornieren" FontSize="12" HorizontalAlignment="Center" TabIndex="1" VerticalAlignment="Center" Width="70" Height="20" Click="Button_Storno"  Visibility="Collapsed"/>
+            <Button Name="BtnStorno" Content="Stornieren" FontSize="12" HorizontalAlignment="Center" TabIndex="1" VerticalAlignment="Center" Width="70" Height="20" Click="Button_Storno"  Visibility="Collapsed"/>
         </StackPanel>
 
         <StackPanel Grid.Row="4" Grid.Column="3" Orientation="Horizontal"  HorizontalAlignment="Left" VerticalAlignment="Center"  >
-            <Button Content="Reaktivieren" FontSize="12" HorizontalAlignment="Center" TabIndex="1" VerticalAlignment="Center" Width="70" Height="20" Click="Button_Reaktivieren" Visibility="Collapsed"/>
+            <Button Name="BtnReaktivieren" Content="Reaktivieren" FontSize="12" HorizontalAlignment="Center" TabIndex="1" VerticalAlignment="Center" Width="70" Height="20" Click="Button_Reaktivieren" Visibility="Collapsed"/>
         </StackPanel>
     </Grid>
 </Window>

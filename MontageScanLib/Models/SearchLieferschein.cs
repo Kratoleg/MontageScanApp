@@ -13,4 +13,5 @@ public class SearchLieferschein
     public DateTime? EingangsTS { get; set; }
     public DateTime? MontageTS { get; set; }
     public int? MitarbeiterId { get; set; }
+    public bool Storniert { get; set; }
 }
