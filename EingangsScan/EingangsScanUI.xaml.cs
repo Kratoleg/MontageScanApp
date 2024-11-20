@@ -23,7 +23,7 @@ public partial class EingangsScanUI : Window
         InitializeComponent();
         sqlLieferschein = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
-        FillDisplayedList();
+        //FillDisplayedList();
     }
 
     private string GetConnectionString(string name)

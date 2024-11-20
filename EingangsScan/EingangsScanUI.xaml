@@ -41,7 +41,7 @@
 
 
         <StackPanel Grid.Row="2" Grid.Column="1"  VerticalAlignment="Center">
-
+            <Label>Letzte Scans:</Label>
             <ListBox  x:Name="AuftragsListe" HorizontalAlignment="Left" MinHeight="300" MaxHeight="350" MinWidth="350" VerticalAlignment="Bottom" Loaded="AuftragsListe_Loaded"  >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
