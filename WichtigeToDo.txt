@@ -1,0 +1,7 @@
+Alle Verwendung von Überflüssigen Model prüfen und Überarbeiten.
+
+Vor der Montage den Stornostatus prüfen
+´
+Bin ich in der Lage aus der Datenbank Etwas zu lesen
+und es in ein unvollständiges Model zu speichern
+(In diesem Fall SearchLieferschein)
