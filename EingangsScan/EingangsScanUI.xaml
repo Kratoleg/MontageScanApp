@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EingangsScan"
         mc:Ignorable="d"
-        Title="Montage LS-Scanner" Height="550" Width="430" FontSize="18" Icon="/Icon.ico" >
+        Title="Montage LS-Scanner" Height="550" Width="830" FontSize="18" Icon="Icon.ico" >
     <Grid>
 
         <Grid.RowDefinitions>
@@ -19,12 +19,37 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-
-            <ColumnDefinition Width="*"/>
-
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
+    
+        
 
+        <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="2">
+            <Label>Nicht-Montierte Aufträge:</Label>
+            <ListBox  x:Name="OffeneMontageListe" HorizontalAlignment="Left" MinHeight="400" MaxHeight="500" MinWidth="400" VerticalAlignment="Bottom" Loaded="OffeneMontageListeLoad"  >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
+                            <StackPanel Orientation="Horizontal" AllowDrop="True" >
+                                <!--<TextBlock Text="{Binding Path=Lieferschein}" Margin="0 0 15 0" />
+                                <TextBlock Text="{Binding Path=StringEingangsTS}" />-->
+                            </StackPanel>
+                        </ScrollViewer>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </StackPanel>
+        <StackPanel Grid.Column="3" Grid.Row="3">
+            <Button>
+                <Button Content="Aktualisieren" FontSize="12" HorizontalAlignment="Center" TabIndex="0" Height="20" Click="OffeneMontageListeLoad"/>
+            </Button>
+        </StackPanel>
+        
+        
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <Label>Eingang:</Label>
             <TextBox x:Name="eingangsScanTextBox" MinWidth="150" Margin="10 0 0 0" KeyDown="EingangsScanTextBox_KeyDown" TabIndex="1"  />

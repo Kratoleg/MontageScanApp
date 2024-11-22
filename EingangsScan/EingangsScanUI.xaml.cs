@@ -17,12 +17,16 @@ namespace EingangsScan;
 public partial class EingangsScanUI : Window
 {
     BindingList<AktiverLieferscheinModel> angezeigteLieferscheine = new BindingList<AktiverLieferscheinModel>();
+    BindingList<AktiverLieferscheinModel> offeneMontageListe = new BindingList<AktiverLieferscheinModel>();
     SqlLieferschein sqlLieferschein;
     public EingangsScanUI()
     {
         InitializeComponent();
         sqlLieferschein = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
+        OffeneMontageListe.ItemsSource= offeneMontageListe;
+        OffeneMontageListeLoad();
+
         FillDisplayedList();
 
         //VOR RELEASE Ändern
@@ -38,6 +42,17 @@ public partial class EingangsScanUI : Window
 
     }
 
+    //Füllt die Liste der offenen Montageaufträgen mit Stuff
+    private void OffeneMontageListeLoad()
+    {
+        List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
+        tempList = sqlLieferschein.GetOffeneMontageAuftraege();
+        foreach (var row in tempList)
+        {
+            offeneMontageListe.Add(row);
+        }
+    }
+
     private void AuftragsListe_Loaded(object sender, RoutedEventArgs e)
     {
         if (AuftragsListe.Items is INotifyCollectionChanged collection)
@@ -51,6 +66,7 @@ public partial class EingangsScanUI : Window
             };
         }
     }
+
     private void FillDisplayedList()
     {
         List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
@@ -242,5 +258,6 @@ public partial class EingangsScanUI : Window
         sender.Clear();
         sender.Focus();
     }
+
 
 }

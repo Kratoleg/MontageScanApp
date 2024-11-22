@@ -57,6 +57,12 @@ public class SqlLieferschein
         string command = "select top 100 LieferscheinId, Lieferschein, EingangsTS, Storniert from dbo.Lieferschein order by EingangsTS DESC;";
         return dbAccess.LoadData<AktiverLieferscheinModel, dynamic>(command, new { }, _connectionString);
     }
+    public List<AktiverLieferscheinModel> GetOffeneMontageAuftraege()
+    {
+        //PRE-Release: SQL statement muss noch geprüft werden
+        string command = "";
+        return dbAccess.LoadData<AktiverLieferscheinModel, dynamic>(command, new { }, _connectionString);
+    }
 
 
     private int GetLieferscheinId(string lieferschein)
