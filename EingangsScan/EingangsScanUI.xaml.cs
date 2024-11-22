@@ -23,8 +23,9 @@ public partial class EingangsScanUI : Window
         InitializeComponent();
         sqlLieferschein = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
-        //VOR RELEASE: FillDisplayedList();
+        FillDisplayedList();
 
+        //VOR RELEASE Ändern
         sqlLieferschein.TemporäreFunktionDieAllesZumLieferscheinHolt("L999999");
     }
 
@@ -70,21 +71,30 @@ public partial class EingangsScanUI : Window
             {
                 SearchLieferschein wanted = new SearchLieferschein();
                 wanted.Lieferschein = eingangsScanTextBox.Text;
-                if(LieferscheinExistsCheck(wanted) == true && wanted.Storniert == false)
+
+                if (LieferscheinExistsCheck(wanted) == false)
+                {
+                    //ScanDenLieferscheinGanzNormal
+                    
+                    sqlLieferschein.LieferscheinEingangsScan(wanted);
+                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = wanted.Lieferschein, EingangsTS = wanted.EingangsTS });
+                    UiCleanUp();
+
+                }
+                else if (LieferscheinExistsCheck(wanted) == true && wanted.Storniert == false)
                 {
                     EingangsScanMessageBox box = new EingangsScanMessageBox(EingangsMessageBox.stornieren);
                     box.ShowDialog();
-                    
+
                 }
 
-                else if(LieferscheinExistsCheck(wanted) == true && wanted.Storniert == true)
+                else if (LieferscheinExistsCheck(wanted) == true && wanted.Storniert == true)
                 {
                     //reaktivieren
+                    EingangsScanMessageBox box = new EingangsScanMessageBox(EingangsMessageBox.stornieren);
+                    box.ShowDialog();
                 }
-                else
-                {
-                    //Lieferschien nicht gefunden
-                }
+
             }
         }
     }
@@ -183,7 +193,7 @@ public partial class EingangsScanUI : Window
         return output;
     }
 
-    
+
     private void KontrolleTextBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
