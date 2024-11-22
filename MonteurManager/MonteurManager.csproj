@@ -19,9 +19,4 @@
     <ProjectReference Include="..\MontageScanLib\MontageScanLib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-
-    <Resource Include="icon.ico" />
-  </ItemGroup>
-
 </Project>
