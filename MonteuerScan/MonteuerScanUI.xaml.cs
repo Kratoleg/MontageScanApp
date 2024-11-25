@@ -29,16 +29,16 @@ public partial class MonteuerScanUI : Window
     private SqlMitarbeiter _sqlMa;
 
     private SqlLieferschein _sqlLs;
-    private MontageLieferscheinModel _lieferscheinInput;
+    private SearchLieferschein _lieferscheinInput;
     BindingList<DisplayedModel> angezeigteLieferscheine;
     public MonteuerScanUI(string connectionString)
     {
-        
+
         _sqlMa = new SqlMitarbeiter(connectionString);
         _sqlLs = new SqlLieferschein(connectionString);
         angezeigteLieferscheine = new BindingList<DisplayedModel>();
         InitializeComponent();
-        
+
         DisplayName.Text = "Kein Mitarbeiter";
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
 
@@ -62,21 +62,32 @@ public partial class MonteuerScanUI : Window
     }
 
 
+
     private void saveLieferscheinToDb(string lieferschein)
     {
-        _lieferscheinInput = new MontageLieferscheinModel(lieferschein);
-        try
+        SearchLieferschein wanted = new SearchLieferschein { Lieferschein = lieferschein };
+
+        _sqlLs.SucheNachLieferschein(wanted);
+
+        //Wenn Storniert oder bereits montiert PopUp Message
+        if (wanted.MontageTS != null)
         {
-            _sqlLs.SucheNachLieferschein(lieferschein);
-            _sqlLs.LieferscheinMontageScan(_lieferscheinInput, _loggedInMitarbeiter.MitarbeiterId);
+            MessageBox.Show($"Lieferschein: {wanted.Lieferschein} wurde bereits montiert!\n\n Dowód dostawy został już przetworzony");
         }
-        catch
+        else if (wanted.Storniert == true)
         {
-            EingangsLieferscheinModel input = new EingangsLieferscheinModel(lieferschein);
-            _sqlLs.LieferscheinEingangsScan(input);
-            _sqlLs.LieferscheinMontageScan(_lieferscheinInput, _loggedInMitarbeiter.MitarbeiterId);
+            MessageBox.Show("Stop! Lieferschein wurde storniert!\n\nZamówienie zostało anulowane! Nie montuj!");
         }
+        else if (wanted.MontageTS == null && wanted.Storniert == false) 
+        {
+            wanted.MontageTS = DateTime.Now;
+            wanted.MitarbeiterId = _loggedInMitarbeiter.MitarbeiterId;
+            _sqlLs.LieferscheinMontageScan(wanted);
+            saveLieferscheinToDisplayList();
+        }
+
     }
+
     private void saveLieferscheinToDisplayList()
     {
         angezeigteLieferscheine.Add(new DisplayedModel { Lieferschein = _lieferscheinInput.Lieferschein, Nachname = _loggedInMitarbeiter.Nachname, TimeStamp = _lieferscheinInput.MontageTS });
@@ -126,7 +137,7 @@ public partial class MonteuerScanUI : Window
                 else if (_loggedInMitarbeiter != null)
                 {
                     saveLieferscheinToDb(inputTextBox.Text);
-                    saveLieferscheinToDisplayList();
+
                     ValidinputWarning();
                 }
             }

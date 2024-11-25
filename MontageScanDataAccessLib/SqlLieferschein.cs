@@ -65,55 +65,31 @@ public class SqlLieferschein
     }
 
 
-    private int GetLieferscheinId(string lieferschein)
+    private void GetLieferscheinId(SearchLieferschein input)
     {
         string command = "select LieferscheinId from dbo.Lieferschein where Lieferschein = @lieferschein;";
-        try
-        {
-
-            int lieferscheinID = dbAccess.LoadData<int, dynamic>(command, new { lieferschein }, _connectionString).FirstOrDefault();
-            return lieferscheinID;
-        }
-        catch (Exception)
-        {
-            return 0;
-        }
-
-    }
-    public void LieferscheinMontageScan(MontageLieferscheinModel input, int MonteurId)
-    {
-        //Get ID from dbo.Lieferschein. If not exists insert and then create new row in dbo.Montage with needed stuff
-        int lieferscheinId = GetLieferscheinId(input.Lieferschein);
-
-
-        if (lieferscheinId != null && lieferscheinId > 0) //LieferscheinID gefunden
-        {
-            WriteToMontage(MonteurId, lieferscheinId, input.MontageTS);
-        }
-        else
-        {
-            //Write Lieferschein to Lieferschein Db, get ID und write to Montage
-            SearchLieferschein temp = new SearchLieferschein { Lieferschein = input.Lieferschein, EingangsTS = DateTime.Now };
-            LieferscheinEingangsScan(temp);
-            int id = GetLieferscheinId(temp.Lieferschein);
-            WriteToMontage(MonteurId, id, input.MontageTS);
-        }
+        input.LieferscheinId = dbAccess.LoadData<int, dynamic>(command, new { input.Lieferschein }, _connectionString).FirstOrDefault();
     }
 
-    private void WriteToMontage(int mitarbeiterId, int lieferscheinId, DateTime montageTs)
+    public void LieferscheinMontageScan(SearchLieferschein input)
     {
-        string command = "insert into dbo.Montage (MitarbeiterId, LieferscheinId, MontageTS) values (@mitarbeiterId, @lieferscheinId, @montageTs);";
-        dbAccess.SaveData(command, new { mitarbeiterId, lieferscheinId, montageTs }, _connectionString);
+        if(input.LieferscheinId == null && InputLsCheck(input))
+        {
+            LieferscheinEingangsScan(input);
+            GetLieferscheinId(input);
+        }
+        string command = "insert into dbo.Montage (MitarbeiterId, LieferscheinId, MontageTS) values (@MitarbeiterId, @LieferscheinId, @MontageTS);";
+        dbAccess.SaveData(command, new { input.MitarbeiterId, input.LieferscheinId, input.MontageTS }, _connectionString);
     }
 
 
 
     public void SucheNachLieferschein(SearchLieferschein input)
     {
-        SearchLieferschein? output = new();
+
         string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId ls.from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @lieferschein;";
 
-        output = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { input.Lieferschein }, _connectionString).FirstOrDefault();
+        input = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { input.Lieferschein }, _connectionString).FirstOrDefault();
 
         if (input.EingangsTS != null)
         {

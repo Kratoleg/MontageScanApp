@@ -24,8 +24,8 @@
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
-    
-        
+
+
 
         <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="2">
             <Label>Nicht-Montierte Aufträge:</Label>
@@ -44,25 +44,25 @@
 
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3">
-            <Button>
-                <Button Content="Aktualisieren" FontSize="12" HorizontalAlignment="Center" TabIndex="0" Height="20" Click="OffeneMontageListeLoad"/>
-            </Button>
+
+            <Button Content="Aktualisieren" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" MinHeight="30" MinWidth="80" TabIndex="2" Click="OffeneMontageListeLoad"/>
+
         </StackPanel>
-        
-        
+
+
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <Label>Eingang:</Label>
-            <TextBox x:Name="eingangsScanTextBox" MinWidth="150" Margin="10 0 0 0" KeyDown="EingangsScanTextBox_KeyDown" TabIndex="1"  />
+            <TextBox x:Name="eingangsScanTextBox" MinWidth="150" Margin="10 0 0 0" KeyDown="EingangsScanTextBox_KeyDown" TabIndex="0"  />
 
 
         </StackPanel>
 
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <Label>Prüfung:</Label>
-            <TextBox x:Name="KontrolleTextBox" MinWidth="150" Margin="10 0 0 0" KeyDown="KontrolleTextBox_KeyDown" TabIndex="2" />
+            <TextBox x:Name="KontrolleTextBox" MinWidth="150" Margin="10 0 0 0" KeyDown="KontrolleTextBox_KeyDown" TabIndex="1" />
         </StackPanel>
 
-        
+
 
 
         <StackPanel Grid.Row="2" Grid.Column="1"  VerticalAlignment="Center">

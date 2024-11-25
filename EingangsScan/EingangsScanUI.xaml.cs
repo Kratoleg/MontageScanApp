@@ -24,13 +24,16 @@ public partial class EingangsScanUI : Window
         InitializeComponent();
         sqlLieferschein = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
-        OffeneMontageListe.ItemsSource= offeneMontageListe;
-        OffeneMontageListeLoad();
+        OffeneMontageListe.ItemsSource = offeneMontageListe;
 
-        FillDisplayedList();
 
-        //VOR RELEASE Ändern
-        sqlLieferschein.TemporäreFunktionDieAllesZumLieferscheinHolt("L999999");
+
+
+
+        ////VOR RELEASE Ändern
+        //OffeneMontageListeLoad();
+        //FillDisplayedList();
+        //sqlLieferschein.TemporäreFunktionDieAllesZumLieferscheinHolt("L999999");
     }
 
     private string GetConnectionString(string name)
@@ -53,6 +56,19 @@ public partial class EingangsScanUI : Window
         }
     }
 
+    private void OffeneMontageListeLoad(object sender, RoutedEventArgs e)
+    {
+        if (AuftragsListe.Items is INotifyCollectionChanged collection)
+        {
+            collection.CollectionChanged += (s, args) =>
+            {
+                if (args.Action == NotifyCollectionChangedAction.Add)
+                {
+                    AuftragsListe.ScrollIntoView(args.NewItems[0]);
+                }
+            };
+        }
+    }
     private void AuftragsListe_Loaded(object sender, RoutedEventArgs e)
     {
         if (AuftragsListe.Items is INotifyCollectionChanged collection)
@@ -91,7 +107,7 @@ public partial class EingangsScanUI : Window
                 if (LieferscheinExistsCheck(wanted) == false)
                 {
                     //ScanDenLieferscheinGanzNormal
-                    
+
                     sqlLieferschein.LieferscheinEingangsScan(wanted);
                     angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = wanted.Lieferschein, EingangsTS = wanted.EingangsTS });
                     UiCleanUp();
