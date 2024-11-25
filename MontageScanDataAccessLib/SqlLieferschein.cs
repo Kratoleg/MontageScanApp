@@ -119,10 +119,10 @@ public class SqlLieferschein
 
     public SearchLieferschein TemporäreFunktionDieAllesZumLieferscheinHolt(string liferschein)
     {
-        string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId ls.Storniert from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @liferschein;";
+        string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId, ls.Storniert from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @liferschein;";
 
         return dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { liferschein }, _connectionString).FirstOrDefault();
-
+        
     }
 
 

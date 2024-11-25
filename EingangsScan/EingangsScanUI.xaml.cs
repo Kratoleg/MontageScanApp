@@ -32,8 +32,9 @@ public partial class EingangsScanUI : Window
 
         ////VOR RELEASE Ändern
         //OffeneMontageListeLoad();
-        //FillDisplayedList();
-        //sqlLieferschein.TemporäreFunktionDieAllesZumLieferscheinHolt("L999999");
+        FillDisplayedList();
+        SearchLieferschein asdf = new SearchLieferschein();
+        asdf = sqlLieferschein.TemporäreFunktionDieAllesZumLieferscheinHolt("L234560");
     }
 
     private string GetConnectionString(string name)
