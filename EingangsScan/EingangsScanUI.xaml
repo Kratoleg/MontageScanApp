@@ -27,15 +27,15 @@
 
 
 
-        <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="2">
+        <StackPanel Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="1" Grid.RowSpan="2" Height="440" VerticalAlignment="Top">
             <Label>Nicht-Montierte Aufträge:</Label>
-            <ListBox  x:Name="OffeneMontageListe" HorizontalAlignment="Left" MinHeight="400" MaxHeight="500" MinWidth="400" VerticalAlignment="Bottom" Loaded="OffeneMontageListeLoad"  >
+            <ListBox  x:Name="OffeneMontageListe" HorizontalAlignment="Left" MaxHeight="375" MinHeight="375" MinWidth="400" MaxWidth="400" Loaded="RefreshMontageListe"  >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">
                             <StackPanel Orientation="Horizontal" AllowDrop="True" >
-                                <!--<TextBlock Text="{Binding Path=Lieferschein}" Margin="0 0 15 0" />
-                                <TextBlock Text="{Binding Path=StringEingangsTS}" />-->
+                                <TextBlock Text="{Binding Path=Lieferschein}" Margin="0 0 15 0" />
+                                <TextBlock Text="{Binding Path=StringEingangsTS}" />
                             </StackPanel>
                         </ScrollViewer>
                     </DataTemplate>
@@ -45,14 +45,14 @@
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3">
 
-            <Button Content="Aktualisieren" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" MinHeight="30" MinWidth="80" TabIndex="2" Click="OffeneMontageListeLoad"/>
+            <Button Content="Aktualisieren" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" MinHeight="30" MinWidth="80" TabIndex="2" Click="RefreshMontageListe"/>
 
         </StackPanel>
 
 
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <Label>Eingang:</Label>
-            <TextBox x:Name="eingangsScanTextBox" MinWidth="150" Margin="10 0 0 0" KeyDown="EingangsScanTextBox_KeyDown" TabIndex="0"  />
+            <TextBox x:Name="eingangsScanTextBox" MinWidth="150" MaxWidth="150"  Margin="10 0 0 0" KeyDown="EingangsScanTextBox_KeyDown" TabIndex="0"  />
 
 
         </StackPanel>
@@ -67,7 +67,7 @@
 
         <StackPanel Grid.Row="2" Grid.Column="1"  VerticalAlignment="Center">
             <Label>Letzte Scans:</Label>
-            <ListBox  x:Name="AuftragsListe" HorizontalAlignment="Left" MinHeight="300" MaxHeight="350" MinWidth="350" VerticalAlignment="Bottom" Loaded="AuftragsListe_Loaded"  >
+            <ListBox  x:Name="AuftragsListe" HorizontalAlignment="Left" MinHeight="300" MaxHeight="345" MinWidth="350" VerticalAlignment="Bottom" Loaded="AuftragsListe_Loaded"  >
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden">

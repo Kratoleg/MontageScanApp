@@ -67,30 +67,30 @@ public partial class MonteuerScanUI : Window
     {
         SearchLieferschein wanted = new SearchLieferschein { Lieferschein = lieferschein };
 
-        _sqlLs.SucheNachLieferschein(wanted);
+        wanted = _sqlLs.SucheNachLieferschein(wanted);
 
         //Wenn Storniert oder bereits montiert PopUp Message
-        if (wanted.MontageTS != null)
+        if (wanted.MontageTS.Year > 2000)
         {
             MessageBox.Show($"Lieferschein: {wanted.Lieferschein} wurde bereits montiert!\n\n Dowód dostawy został już przetworzony");
         }
-        else if (wanted.Storniert == true)
+        else if (wanted.Storniert == 1)
         {
             MessageBox.Show("Stop! Lieferschein wurde storniert!\n\nZamówienie zostało anulowane! Nie montuj!");
         }
-        else if (wanted.MontageTS == null && wanted.Storniert == false) 
+        else if (wanted.MontageTS.Year < 2000 && wanted.Storniert == 0) 
         {
             wanted.MontageTS = DateTime.Now;
             wanted.MitarbeiterId = _loggedInMitarbeiter.MitarbeiterId;
             _sqlLs.LieferscheinMontageScan(wanted);
-            saveLieferscheinToDisplayList();
+            saveLieferscheinToDisplayList(wanted);
         }
 
     }
 
-    private void saveLieferscheinToDisplayList()
+    private void saveLieferscheinToDisplayList(SearchLieferschein input)
     {
-        angezeigteLieferscheine.Add(new DisplayedModel { Lieferschein = _lieferscheinInput.Lieferschein, Nachname = _loggedInMitarbeiter.Nachname, TimeStamp = _lieferscheinInput.MontageTS });
+        angezeigteLieferscheine.Add(new DisplayedModel { Lieferschein = input.Lieferschein, Nachname = _loggedInMitarbeiter.Nachname, TimeStamp = input.MontageTS });
     }
 
     private void mitarbeiterLogin(string mitarbeiterChipId)

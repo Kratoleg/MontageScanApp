@@ -26,43 +26,53 @@ namespace EingangsScan
 
         public EingangsScanMessageBox(EingangsMessageBox input)
         {
-            InitializeComponent();
-
-
             dialogOption = input;
+            InitializeComponent();
+            UpdateMessageText();
+            AbbrechenKnopf.Focus();
+
+
             DataContext = this;
+
         }
 
-        private void SetMessageText(EingangsMessageBox input)
+        private void UpdateMessageText()
         {
             //Auftrag muss storniert werden
-            if(dialogOption == EingangsMessageBox.stornieren )
+            if (dialogOption == EingangsMessageBox.stornieren)
             {
-                _Message = "Auftrag für die Montage sperren?";
                 setUiToStorno();
             }
             //Auftrag muss reaktivier werden
-            else if(dialogOption == EingangsMessageBox.reaktivieren)
+            else if (dialogOption == EingangsMessageBox.reaktivieren)
             {
-                _Message = "Auftrag wurde gesperrt. \n Möchten Sie ihn reaktivieren?";
+                
                 setUiToRaktivierung();
             }
             //Fehler 
-            else 
+            else
             {
-                dialogOption = EingangsMessageBox.fehler;
+                DialogResult = false;
             }
         }
 
         private void setUiToStorno()
         {
-            BtnReaktivieren.Visibility = Visibility.Collapsed;
+            BtnReaktivieren.Visibility = Visibility.Hidden;
             BtnStorno.Visibility = Visibility.Visible;
+            ReaktivierenmeldungUpper.Visibility = Visibility.Hidden;
+            ReaktivierenmeldungLower.Visibility = Visibility.Hidden;
+            StornomeldungLower.Visibility = Visibility.Visible;
+            StornomeldungUpper.Visibility = Visibility.Visible;
         }
         private void setUiToRaktivierung()
         {
             BtnReaktivieren.Visibility = Visibility.Visible;
-            BtnStorno.Visibility = Visibility.Collapsed;
+            BtnStorno.Visibility = Visibility.Hidden;
+            ReaktivierenmeldungUpper.Visibility = Visibility.Visible;
+            ReaktivierenmeldungLower.Visibility = Visibility.Visible;
+            StornomeldungLower.Visibility = Visibility.Hidden;
+            StornomeldungUpper.Visibility = Visibility.Hidden;
         }
 
 

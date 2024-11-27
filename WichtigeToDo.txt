@@ -5,3 +5,11 @@ Vor der Montage den Stornostatus prüfen
 Bin ich in der Lage aus der Datenbank Etwas zu lesen
 und es in ein unvollständiges Model zu speichern
 (In diesem Fall SearchLieferschein)
+
+
+Aufträge werden bei Eingang nicht geprüft
+
+Aufträge werden bei der Prüfung nicht gefunden
+
+PopUpMessage zeigt keinen Text
+Monteure müssen gestopt werden stornierte aufträge zu montieren

@@ -31,10 +31,9 @@ public partial class EingangsScanUI : Window
 
 
         ////VOR RELEASE Ändern
-        //OffeneMontageListeLoad();
+        RefreshMontageListe();
         FillDisplayedList();
-        SearchLieferschein asdf = new SearchLieferschein();
-        asdf = sqlLieferschein.TemporäreFunktionDieAllesZumLieferscheinHolt("L234560");
+
     }
 
     private string GetConnectionString(string name)
@@ -47,7 +46,9 @@ public partial class EingangsScanUI : Window
     }
 
     //Füllt die Liste der offenen Montageaufträgen mit Stuff
-    private void OffeneMontageListeLoad()
+
+
+    private void RefreshMontageListe()
     {
         List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
         tempList = sqlLieferschein.GetOffeneMontageAuftraege();
@@ -56,18 +57,39 @@ public partial class EingangsScanUI : Window
             offeneMontageListe.Add(row);
         }
     }
-
-    private void OffeneMontageListeLoad(object sender, RoutedEventArgs e)
+    private void RefreshMontageListe(object sender, RoutedEventArgs e)
     {
-        if (AuftragsListe.Items is INotifyCollectionChanged collection)
+        offeneMontageListe.Clear();
+        List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
+        tempList = sqlLieferschein.GetOffeneMontageAuftraege();
+        foreach (var row in tempList)
+        {
+            offeneMontageListe.Add(row);
+        }
+    }
+
+
+    private void OffeneMontageListeLoad()
+    {
+        if (OffeneMontageListe.Items is INotifyCollectionChanged collection)
         {
             collection.CollectionChanged += (s, args) =>
             {
                 if (args.Action == NotifyCollectionChangedAction.Add)
                 {
-                    AuftragsListe.ScrollIntoView(args.NewItems[0]);
+                    OffeneMontageListe.ScrollIntoView(args.NewItems[0]);
                 }
             };
+        }
+    }
+    private void FillDisplayedList()
+    {
+        List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
+        tempList = sqlLieferschein.GetLast100RowsFromLieferschein();
+        tempList.Reverse();
+        foreach (var row in tempList)
+        {
+            angezeigteLieferscheine.Add(row);
         }
     }
     private void AuftragsListe_Loaded(object sender, RoutedEventArgs e)
@@ -84,79 +106,50 @@ public partial class EingangsScanUI : Window
         }
     }
 
-    private void FillDisplayedList()
-    {
-        List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
-        tempList = sqlLieferschein.GetLast100RowsFromLieferschein();
-        tempList.Reverse();
-        foreach (var row in tempList)
-        {
-            angezeigteLieferscheine.Add(row);
-        }
-    }
 
-
-    private void EingangsScanTextBox_KeyDown(KeyEventArgs e)
-    {
-        if (e.Key == Key.Enter)
-        {
-            if (eingangsScanTextBox.Text.inputCheckLieferschein())
-            {
-                SearchLieferschein wanted = new SearchLieferschein();
-                wanted.Lieferschein = eingangsScanTextBox.Text;
-
-                if (LieferscheinExistsCheck(wanted) == false)
-                {
-                    //ScanDenLieferscheinGanzNormal
-
-                    sqlLieferschein.LieferscheinEingangsScan(wanted);
-                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = wanted.Lieferschein, EingangsTS = wanted.EingangsTS });
-                    UiCleanUp();
-
-                }
-                else if (LieferscheinExistsCheck(wanted) == true && wanted.Storniert == false)
-                {
-                    EingangsScanMessageBox box = new EingangsScanMessageBox(EingangsMessageBox.stornieren);
-                    box.ShowDialog();
-
-                }
-
-                else if (LieferscheinExistsCheck(wanted) == true && wanted.Storniert == true)
-                {
-                    //reaktivieren
-                    EingangsScanMessageBox box = new EingangsScanMessageBox(EingangsMessageBox.stornieren);
-                    box.ShowDialog();
-                }
-
-            }
-        }
-    }
 
     private void EingangsScanTextBox_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
         {
+            
             if (eingangsScanTextBox.Text.inputCheckLieferschein())
             {
                 //Prüfen ob Lieferschein hinterlegt ist und ob er gestopt ist 
-                SearchLieferschein lieferscheinScan = new SearchLieferschein { Lieferschein = eingangsScanTextBox.Text };
-                if (LieferscheinExistsCheck(lieferscheinScan) == true)
+
+                if (LieferscheinExistsCheck(eingangsScanTextBox.Text) == true)
                 {
+                    //Lieferschein Existiert. Soll er gestoppt werden oder nicht?
+                    SearchLieferschein wanted = sqlLieferschein.SucheNachLieferschein(eingangsScanTextBox.Text);
+                    EingangsMessageBox option = EingangsMessageBox.fehler; 
 
-                    EingangsScanMessageBox box = new EingangsScanMessageBox(EingangsMessageBox.stornieren);
+                    if (wanted.Storniert == 1)
+                    {//LS ist gestopt
+                        option = EingangsMessageBox.reaktivieren;
+                        
+                    }
+                    else if(wanted.Storniert == 0 || wanted.Storniert == null)
+                    {//LS nicht gestopt
+                        option = EingangsMessageBox.stornieren;
 
-                    //MessageBoxResult result = MessageBox.Show("Lieferschein bereits vorhanden\nDatum aktualisieren?", "Confirmation", MessageBoxButton.YesNo);
-                    //if(result == MessageBoxResult.Yes)
-                    //{
-                    //    sqlLieferschein.UpdateLieferschein(lieferscheinScan);
-                    //    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = lieferscheinScan.Lieferschein, EingangsTS = lieferscheinScan.EingangsTS });
-                    //}
+
+                    }
+
+                    EingangsScanMessageBox popUp = new EingangsScanMessageBox(option);
+                    popUp.ShowDialog();
+                    if (popUp.DialogResult == true)
+                    {//Positiv, Swtich Stornostatus
+                        wanted.Storniert = 1 - wanted.Storniert;
+                        sqlLieferschein.UpdateLsStornoStatus(wanted);
+                    }
+
                     UiCleanUp();
                 }
                 else
                 {
-                    sqlLieferschein.LieferscheinEingangsScan(lieferscheinScan);
-                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = lieferscheinScan.Lieferschein, EingangsTS = lieferscheinScan.EingangsTS });
+                    //Lieferschein nicht gefunden. Wird neu angelegt.
+                    sqlLieferschein.LieferscheinEingangsScan(eingangsScanTextBox.Text);
+                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = eingangsScanTextBox.Text, EingangsTS = DateTime.Now });
                     UiCleanUp();
                 }
             }
@@ -168,42 +161,7 @@ public partial class EingangsScanUI : Window
         }
     }
 
-    //private void EingangsScanTextBox_KeyDown(object sender, KeyEventArgs e)
-    //{
-    //    if (e.Key == Key.Enter)
-    //    {
-    //        if (eingangsScanTextBox.Text.inputCheckLieferschein())
-    //        {
-    //            //Prüfen ob Lieferschein hinterlegt ist und ob er gestopt ist 
-    //            SearchLieferschein lieferscheinScan = new SearchLieferschein { Lieferschein = eingangsScanTextBox.Text };
-    //            if (LieferscheinExistsCheck(lieferscheinScan) == true)
-    //            {
 
-    //                EingangsScanMessageBox box = new EingangsScanMessageBox(EingangsMessageBox.stornieren);
-
-    //                MessageBoxResult result = MessageBox.Show("Lieferschein bereits vorhanden\nDatum aktualisieren?", "Confirmation", MessageBoxButton.YesNo);
-    //                if (result == MessageBoxResult.Yes)
-    //                {
-
-    //                    angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = lieferscheinScan.Lieferschein, EingangsTS = lieferscheinScan.EingangsTS });
-    //                }
-    //                UiCleanUp();
-    //            }
-    //            else
-    //            {
-    //                sqlLieferschein.LieferscheinEingangsScan(lieferscheinScan);
-    //                angezeigteLieferscheine.Add(new AktiverLieferscheinModel { Lieferschein = lieferscheinScan.Lieferschein, EingangsTS = lieferscheinScan.EingangsTS });
-    //                UiCleanUp();
-    //            }
-    //        }
-    //        else
-    //        {
-
-    //            WrongInputAlarm(eingangsScanTextBox);
-    //        }
-
-    //    }
-    //}
 
     private void UiCleanUp()
     {
@@ -211,7 +169,7 @@ public partial class EingangsScanUI : Window
         eingangsScanTextBox.Clear();
         AuftragsListe.ScrollIntoView(AuftragsListe.Items[AuftragsListe.Items.Count - 1]);
     }
-    private bool LieferscheinExistsCheck(SearchLieferschein input)
+    private bool LieferscheinExistsCheck(string input)
     {
         bool output;
         try
@@ -233,21 +191,29 @@ public partial class EingangsScanUI : Window
         {
             if (KontrolleTextBox.Text.inputCheckLieferschein())
             {
-                SearchLieferschein found = new SearchLieferschein { Lieferschein = eingangsScanTextBox.Text };
+                SearchLieferschein found = new SearchLieferschein { Lieferschein = KontrolleTextBox.Text };
                 string searchResult = "Lieferschein nicht gefunden";
                 try
                 {
 
-                    sqlLieferschein.SucheNachLieferschein(found);
-                    if (found.EingangsTS != null)
+                    found = sqlLieferschein.SucheNachLieferschein(found);
+                    if (found.EingangsTS.Year > 2000)
                     {
-                        searchResult = $"{found.Lieferschein} \nKommissionierung: {found.EingangsTS} \n\nMontage: {found.MontageTS}";
-                        if (found.MitarbeiterId != null)
+                        searchResult = $"{found.Lieferschein} \nKommissionierung: {found.EingangsTS} \nMontage Datum: {found.MontageTS}";
+                        if (found.MitarbeiterId != null && found.MitarbeiterId > 0)
                         {
                             SqlMitarbeiter ma = new SqlMitarbeiter(GetConnectionString("PrivateMontageScan"));
                             var mitarbeiter = ma.GetMiarbeiterById(found.MitarbeiterId.ToString());
                             searchResult = searchResult + $" \nMonteur: {mitarbeiter.Vorname} {mitarbeiter.Nachname}";
                         }
+                    }
+                    if(found.Storniert == 1)
+                    {
+                        searchResult = searchResult + $"\nBearbeitungsstatus: Auftrag gestoppt!";
+                    }
+                    if (found.Storniert == 0 || found.Storniert == null)
+                    {
+                        searchResult = searchResult + $"\nBearbeitungsstatus: Auftrag in bearbeitung!";
                     }
                 }
                 catch

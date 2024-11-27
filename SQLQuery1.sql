@@ -1,0 +1,1 @@
+﻿select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, ls.Storniert from dbo.Lieferschein ls where ls.Storniert is NULL or ls.Storniert = 0 AND NOT EXISTS(SELECT 1 from Montage m where m.LieferscheinId = ls.LieferscheinId); 

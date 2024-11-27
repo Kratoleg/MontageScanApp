@@ -12,10 +12,10 @@ namespace MontageScanLib.Models
 
         public string Lieferschein { get; set; }
         public DateTime EingangsTS { get; set; }
-        public bool? Storniert { get; set; }
+        public int? Storniert { get; set; }
 
 
         public string StringEingangsTS
-        { get { return EingangsTS.ToString("dd.MM.yyyy HH:mm:ss"); } }
+        { get { return EingangsTS.ToString("dd.MM.yyyy HH:mm"); } }
     }
 }

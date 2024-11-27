@@ -1,7 +1,12 @@
 select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, ls.Storniert
 from dbo.Lieferschein ls 
-where ls.Storniert = FALSE
+where ls.Storniert is NULL or ls.Storniert = 1
 AND NOT EXISTS(SELECT 1 from Montage m where m.LieferscheinId = ls.LieferscheinId); 
+
+
+
+select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, ls.Storniert
+from dbo.Lieferschein ls where ls.Lieferschein = 'L000003'
 
 
 
