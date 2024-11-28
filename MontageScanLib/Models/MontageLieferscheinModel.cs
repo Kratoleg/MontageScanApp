@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 
-namespace MontageScanLib.Models;
+//namespace MontageScanLib.Models;
 
-public class MontageLieferscheinModel : LieferscheinModel
-{
+//public class MontageLieferscheinModel : LieferscheinModel
+//{
 
-    public DateTime MontageTS { get; }
+//    public DateTime MontageTS { get; }
 
-    public MontageLieferscheinModel(string lieferschein)
-    {
-        MontageTS = DateTime.Now;
-        Lieferschein = lieferschein;
-    }
+//    public MontageLieferscheinModel(string lieferschein)
+//    {
+//        MontageTS = DateTime.Now;
+//        Lieferschein = lieferschein;
+//    }
 
 
 
-}
+//}
 
 

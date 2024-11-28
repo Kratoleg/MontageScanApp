@@ -13,3 +13,5 @@ Aufträge werden bei der Prüfung nicht gefunden
 
 PopUpMessage zeigt keinen Text
 Monteure müssen gestopt werden stornierte aufträge zu montieren
+
+Refresh Button im EingangsScan für 5 Sekunden verstecken.

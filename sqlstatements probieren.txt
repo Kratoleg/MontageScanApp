@@ -15,3 +15,6 @@ anderes ding
 select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS 
 from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on 
 ls.LieferscheinId = m.LieferscheinId where  CAST(ls.EingangsTS AS date) = '2024-11-13';
+
+
+Für jeden Auftrag den storniert status von NULL auf 0 setzten 

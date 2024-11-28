@@ -45,8 +45,8 @@ public partial class MonteuerScanUI : Window
     }
     public MonteuerScanUI()
     {
-        _sqlMa = new SqlMitarbeiter(GetConnectionString("PrivateMontageScan"));
-        _sqlLs = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
+        _sqlMa = new SqlMitarbeiter(GetConnectionString("RV24_Montage"));
+        _sqlLs = new SqlLieferschein(GetConnectionString("RV24_Montage"));
         angezeigteLieferscheine = new BindingList<DisplayedModel>();
         InitializeComponent();
         DisplayName.Text = "Kein Mitarbeiter";

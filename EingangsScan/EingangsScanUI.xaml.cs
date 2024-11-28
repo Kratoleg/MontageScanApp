@@ -22,15 +22,9 @@ public partial class EingangsScanUI : Window
     public EingangsScanUI()
     {
         InitializeComponent();
-        sqlLieferschein = new SqlLieferschein(GetConnectionString("PrivateMontageScan"));
+        sqlLieferschein = new SqlLieferschein(GetConnectionString("RV24_Montage"));
         AuftragsListe.ItemsSource = angezeigteLieferscheine;
         OffeneMontageListe.ItemsSource = offeneMontageListe;
-
-
-
-
-
-        ////VOR RELEASE Ändern
         RefreshMontageListe();
         FillDisplayedList();
 
@@ -38,14 +32,12 @@ public partial class EingangsScanUI : Window
 
     private string GetConnectionString(string name)
     {
-
         ConnectionStringSettings? settings =
             ConfigurationManager.ConnectionStrings[name];
         return settings?.ConnectionString;
-
     }
 
-    //Füllt die Liste der offenen Montageaufträgen mit Stuff
+
 
 
     private void RefreshMontageListe()
@@ -66,22 +58,24 @@ public partial class EingangsScanUI : Window
         {
             offeneMontageListe.Add(row);
         }
+        HideRefreshButton();
+
     }
 
 
-    private void OffeneMontageListeLoad()
-    {
-        if (OffeneMontageListe.Items is INotifyCollectionChanged collection)
-        {
-            collection.CollectionChanged += (s, args) =>
-            {
-                if (args.Action == NotifyCollectionChangedAction.Add)
-                {
-                    OffeneMontageListe.ScrollIntoView(args.NewItems[0]);
-                }
-            };
-        }
-    }
+    //private void OffeneMontageListeLoad()
+    //{
+    //    if (OffeneMontageListe.Items is INotifyCollectionChanged collection)
+    //    {
+    //        collection.CollectionChanged += (s, args) =>
+    //        {
+    //            if (args.Action == NotifyCollectionChangedAction.Add)
+    //            {
+    //                OffeneMontageListe.ScrollIntoView(args.NewItems[0]);
+    //            }
+    //        };
+    //    }
+    //}
     private void FillDisplayedList()
     {
         List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
@@ -92,6 +86,7 @@ public partial class EingangsScanUI : Window
             angezeigteLieferscheine.Add(row);
         }
     }
+
     private void AuftragsListe_Loaded(object sender, RoutedEventArgs e)
     {
         if (AuftragsListe.Items is INotifyCollectionChanged collection)
@@ -121,28 +116,35 @@ public partial class EingangsScanUI : Window
                 {
                     //Lieferschein Existiert. Soll er gestoppt werden oder nicht?
                     SearchLieferschein wanted = sqlLieferschein.SucheNachLieferschein(eingangsScanTextBox.Text);
-                    EingangsMessageBox option = EingangsMessageBox.fehler; 
+                    if (wanted.MontageTS.Year < 2000)
+                    {
 
-                    if (wanted.Storniert == 1)
-                    {//LS ist gestopt
-                        option = EingangsMessageBox.reaktivieren;
-                        
+                        EingangsMessageBox option = EingangsMessageBox.fehler;
+
+                        if (wanted.Storniert == 1)
+                        {//LS ist gestopt
+                            option = EingangsMessageBox.reaktivieren;
+
+                        }
+                        else if (wanted.Storniert == 0)
+                        {//LS nicht gestopt
+                            option = EingangsMessageBox.stornieren;
+
+
+                        }
+
+                        EingangsScanMessageBox popUp = new EingangsScanMessageBox(option);
+                        popUp.ShowDialog();
+                        if (popUp.DialogResult == true)
+                        {//Positiv, Swtich Stornostatus
+                            wanted.Storniert = 1 - wanted.Storniert;
+                            sqlLieferschein.UpdateLsStornoStatus(wanted);
+                        }
                     }
-                    else if(wanted.Storniert == 0 || wanted.Storniert == null)
-                    {//LS nicht gestopt
-                        option = EingangsMessageBox.stornieren;
-
-
+                    else if(wanted.MontageTS.Year > 2000)
+                    {
+                        MessageBox.Show("Lieferschein bereits montiert\nEr kann nicht mehr gestoppt werden");
                     }
-
-                    EingangsScanMessageBox popUp = new EingangsScanMessageBox(option);
-                    popUp.ShowDialog();
-                    if (popUp.DialogResult == true)
-                    {//Positiv, Swtich Stornostatus
-                        wanted.Storniert = 1 - wanted.Storniert;
-                        sqlLieferschein.UpdateLsStornoStatus(wanted);
-                    }
-
                     UiCleanUp();
                 }
                 else
@@ -199,12 +201,12 @@ public partial class EingangsScanUI : Window
                     found = sqlLieferschein.SucheNachLieferschein(found);
                     if (found.EingangsTS.Year > 2000)
                     {
-                        searchResult = $"{found.Lieferschein} \nKommissionierung: {found.EingangsTS} \nMontage Datum: {found.MontageTS}";
+                        searchResult = $"{found.Lieferschein} \nKommissionierung: {found.EingangsTS}";
                         if (found.MitarbeiterId != null && found.MitarbeiterId > 0)
                         {
                             SqlMitarbeiter ma = new SqlMitarbeiter(GetConnectionString("PrivateMontageScan"));
                             var mitarbeiter = ma.GetMiarbeiterById(found.MitarbeiterId.ToString());
-                            searchResult = searchResult + $" \nMonteur: {mitarbeiter.Vorname} {mitarbeiter.Nachname}";
+                            searchResult = searchResult + $" \nMontage Datum: {found.MontageTS}\nMonteur: {mitarbeiter.Vorname} {mitarbeiter.Nachname}";
                         }
                     }
                     if(found.Storniert == 1)
@@ -240,6 +242,13 @@ public partial class EingangsScanUI : Window
         sender.Background = Brushes.Red;
         sender.Clear();
         sender.Focus();
+    }
+
+    private void HideRefreshButton()
+    {
+        //Hide button for 5 seconds
+        RefreshButton.Visibility = Visibility.Hidden;
+        RefreshButton.Visibility = Visibility.Visible;
     }
 
 

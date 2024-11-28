@@ -109,19 +109,20 @@ public class SqlLieferschein
     public SearchLieferschein SucheNachLieferschein(string stringInput)
     {
         SearchLieferschein input = new SearchLieferschein{Lieferschein = stringInput };
+        return SucheNachLieferschein(input);
 
-        string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId, ls.Storniert from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @search ;";
-        string search = input.Lieferschein;
+        //    string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId, ls.Storniert from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @search ;";
+        //    string search = input.Lieferschein;
 
-        input = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { search }, _connectionString).FirstOrDefault();
-        
-        if(input.EingangsTS == null)
-        {
-            throw new Exception("Lieferschein nicht gefunden");
-        }
-        else if(IsValidTimeStamp(input.EingangsTS))
-        { return input; }
-        throw new Exception("Lieferschein nicht gefunden");
+        //    input = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { search }, _connectionString).FirstOrDefault();
+
+        //    if(input.EingangsTS == null)
+        //    {
+        //        throw new Exception("Lieferschein nicht gefunden");
+        //    }
+        //    else if(IsValidTimeStamp(input.EingangsTS))
+        //    { return input; }
+        //    throw new Exception("Lieferschein nicht gefunden");
     }
 
 
@@ -149,12 +150,6 @@ public class SqlLieferschein
         return output;
     }
 
-    public SearchLieferschein TemporäreFunktionDieAllesZumLieferscheinHolt(SearchLieferschein input)
-    {  
-        string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId, ls.Storniert from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @search;";
-        string search = input.Lieferschein;
-        input = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { search }, _connectionString).FirstOrDefault();
-        return input;
-    }
+
 
 }

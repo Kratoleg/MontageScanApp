@@ -37,7 +37,7 @@ public partial class MeunteurManagerUI : Window
     public MeunteurManagerUI()
     {
         InitializeComponent();
-        _sqlMa = new SqlMitarbeiter(GetConnectionString("PrivateMontageScan"));
+        _sqlMa = new SqlMitarbeiter(GetConnectionString("RV24_Montage"));
 
     }
 

@@ -45,7 +45,7 @@
         </StackPanel>
         <StackPanel Grid.Column="3" Grid.Row="3">
 
-            <Button Content="Aktualisieren" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" MinHeight="30" MinWidth="80" TabIndex="2" Click="RefreshMontageListe"/>
+            <Button x:Name="RefreshButton" Content="Aktualisieren" FontSize="12" HorizontalAlignment="Right" VerticalAlignment="Center" MinHeight="30" MinWidth="80" TabIndex="2" Click="RefreshMontageListe"/>
 
         </StackPanel>
 
