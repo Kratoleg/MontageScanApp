@@ -12,6 +12,7 @@ using System.Windows.Media;
 
 
 
+
 namespace EingangsScan;
 
 public partial class EingangsScanUI : Window
@@ -38,8 +39,6 @@ public partial class EingangsScanUI : Window
     }
 
 
-
-
     private void RefreshMontageListe()
     {
         List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
@@ -58,24 +57,19 @@ public partial class EingangsScanUI : Window
         {
             offeneMontageListe.Add(row);
         }
-        HideRefreshButton();
+
+        //RefreshButton.Visibility = Visibility.Hidden;
+
+        //Task.Run(async () =>
+        //{
+        //    await Task.Delay(5000);
+        //    RefreshButton.Visibility = Visibility.Visible;
+        //});
+
 
     }
 
 
-    //private void OffeneMontageListeLoad()
-    //{
-    //    if (OffeneMontageListe.Items is INotifyCollectionChanged collection)
-    //    {
-    //        collection.CollectionChanged += (s, args) =>
-    //        {
-    //            if (args.Action == NotifyCollectionChangedAction.Add)
-    //            {
-    //                OffeneMontageListe.ScrollIntoView(args.NewItems[0]);
-    //            }
-    //        };
-    //    }
-    //}
     private void FillDisplayedList()
     {
         List<AktiverLieferscheinModel> tempList = new List<AktiverLieferscheinModel>();
@@ -107,7 +101,7 @@ public partial class EingangsScanUI : Window
     {
         if (e.Key == Key.Enter)
         {
-            
+
             if (eingangsScanTextBox.Text.inputCheckLieferschein())
             {
                 //Prüfen ob Lieferschein hinterlegt ist und ob er gestopt ist 
@@ -141,7 +135,7 @@ public partial class EingangsScanUI : Window
                             sqlLieferschein.UpdateLsStornoStatus(wanted);
                         }
                     }
-                    else if(wanted.MontageTS.Year > 2000)
+                    else if (wanted.MontageTS.Year > 2000)
                     {
                         MessageBox.Show("Lieferschein bereits montiert\nEr kann nicht mehr gestoppt werden");
                     }
@@ -209,7 +203,7 @@ public partial class EingangsScanUI : Window
                             searchResult = searchResult + $" \nMontage Datum: {found.MontageTS}\nMonteur: {mitarbeiter.Vorname} {mitarbeiter.Nachname}";
                         }
                     }
-                    if(found.Storniert == 1)
+                    if (found.Storniert == 1)
                     {
                         searchResult = searchResult + $"\nBearbeitungsstatus: Auftrag gestoppt!";
                     }
@@ -244,12 +238,6 @@ public partial class EingangsScanUI : Window
         sender.Focus();
     }
 
-    private void HideRefreshButton()
-    {
-        //Hide button for 5 seconds
-        RefreshButton.Visibility = Visibility.Hidden;
-        RefreshButton.Visibility = Visibility.Visible;
-    }
 
 
 }
