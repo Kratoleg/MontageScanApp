@@ -67,14 +67,16 @@ public partial class MonteuerScanUI : Window
     {
         SearchLieferschein wanted = new SearchLieferschein();
 
-        //Lieferschein nicht gefunden
-        wanted = _sqlLs.SucheNachLieferschein(lieferschein);
-
-        if (wanted == null)
+        //Lieferschein nicht gefunden. Wirft Fehler
+        try
         {
-            wanted = new SearchLieferschein { Lieferschein = lieferschein};
-            _sqlLs.LieferscheinEingangsScan(wanted);
             wanted = _sqlLs.SucheNachLieferschein(wanted);
+        }
+        catch (Exception)
+        {
+
+        }
+
 
         }
 
