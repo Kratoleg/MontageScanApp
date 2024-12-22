@@ -19,3 +19,8 @@ Refresh Button im EingangsScan für 5 Sekunden verstecken.
 Anzahl der offenen Aufträge anzeigen 
 
 ConnectionString in MonteurManager und MonteurScanner adden
+
+
+    //TODO: Funktion überarbeiten.
+    //Input soll gesucht werden und an Output gemapt werden. Wenn output i.O. ist soll output returned werden.
+    public SearchLieferschein SucheNachLieferschein(SearchLieferschein input)

@@ -67,7 +67,16 @@ public partial class MonteuerScanUI : Window
     {
         SearchLieferschein wanted = new SearchLieferschein { Lieferschein = lieferschein };
 
-        wanted = _sqlLs.SucheNachLieferschein(wanted);
+        //Lieferschein nicht gefunden. Wirft Fehler
+        try
+        {
+            wanted = _sqlLs.SucheNachLieferschein(wanted);
+        }
+        catch (Exception)
+        {
+
+        }
+
 
         //Wenn Storniert oder bereits montiert PopUp Message
         if (wanted.MontageTS.Year > 2000)

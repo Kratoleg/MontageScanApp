@@ -28,13 +28,13 @@ public class SqlLieferschein
     }
     public void LieferscheinEingangsScan(SearchLieferschein input)
     {
-            input.EingangsTS = DateTime.Now;
-            input.Storniert = 0;
-            string command = "insert into dbo.Lieferschein (Lieferschein, EingangsTS, Storniert) values (@lieferschein,  @eingangsTs, @storno);";
-            string lieferschein = input.Lieferschein;
-            DateTime eingangsTs = input.EingangsTS;
-            int storno = input.Storniert;
-            dbAccess.SaveData(command, new { lieferschein, eingangsTs, storno }, _connectionString);
+        input.EingangsTS = DateTime.Now;
+        input.Storniert = 0;
+        string command = "insert into dbo.Lieferschein (Lieferschein, EingangsTS, Storniert) values (@lieferschein,  @eingangsTs, @storno);";
+        string lieferschein = input.Lieferschein;
+        DateTime eingangsTs = input.EingangsTS;
+        int storno = input.Storniert;
+        dbAccess.SaveData(command, new { lieferschein, eingangsTs, storno }, _connectionString);
     }
 
 
@@ -67,7 +67,7 @@ public class SqlLieferschein
             LieferscheinEingangsScan(input);
             GetLieferscheinId(input);
         }
-        
+
         if (input.LieferscheinId != null)
         {
             int mitarbeiterId = input.MitarbeiterId;
@@ -83,6 +83,8 @@ public class SqlLieferschein
 
 
 
+    //TODO: Funktion überarbeiten.
+    //Input soll gesucht werden und an Output gemapt werden. Wenn output i.O. ist soll output returned werden.
     public SearchLieferschein SucheNachLieferschein(SearchLieferschein input)
     {
 
@@ -90,39 +92,19 @@ public class SqlLieferschein
         string search = input.Lieferschein;
         input = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { search }, _connectionString).FirstOrDefault();
 
-        try
-        {
-            IsValidTimeStamp(input.EingangsTS);
-          
-            
+        IsValidTimeStamp(input.EingangsTS);
 
-        }
-        catch 
-        {
 
-            throw new Exception("Lieferschein nicht gefunden");
-        }
         return input;
-     
+
 
     }
     public SearchLieferschein SucheNachLieferschein(string stringInput)
     {
-        SearchLieferschein input = new SearchLieferschein{Lieferschein = stringInput };
+        SearchLieferschein input = new SearchLieferschein { Lieferschein = stringInput };
         return SucheNachLieferschein(input);
 
-        //    string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId, ls.Storniert from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @search ;";
-        //    string search = input.Lieferschein;
 
-        //    input = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { search }, _connectionString).FirstOrDefault();
-
-        //    if(input.EingangsTS == null)
-        //    {
-        //        throw new Exception("Lieferschein nicht gefunden");
-        //    }
-        //    else if(IsValidTimeStamp(input.EingangsTS))
-        //    { return input; }
-        //    throw new Exception("Lieferschein nicht gefunden");
     }
 
 
@@ -143,7 +125,7 @@ public class SqlLieferschein
         bool output = false;
         int rightNow = DateTime.Now.Year;
         int inputTS = input.Year;
-        if(inputTS >= (rightNow - 5))
+        if (inputTS >= (rightNow - 5))
         {
             output = true;
         }
