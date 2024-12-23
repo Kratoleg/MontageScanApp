@@ -83,21 +83,14 @@ public class SqlLieferschein
 
 
 
-    //TODO: Funktion überarbeiten.
-    //Input soll gesucht werden und an Output gemapt werden. Wenn output i.O. ist soll output returned werden.
+    
     public SearchLieferschein SucheNachLieferschein(SearchLieferschein input)
     {
 
         string command = "select ls.lieferscheinId, ls.lieferschein, ls.EingangsTS, m.MontageTS, ma.MitarbeiterId, ls.Storniert from Montage m inner join dbo.Mitarbeiter ma on ma.MitarbeiterId=m.MitarbeiterId right join dbo.Lieferschein ls on ls.LieferscheinId = m.LieferscheinId where ls.lieferschein = @search;";
         string search = input.Lieferschein;
         input = dbAccess.LoadData<SearchLieferschein, dynamic>(command, new { search }, _connectionString).FirstOrDefault();
-
-        IsValidTimeStamp(input.EingangsTS);
-
-
         return input;
-
-
     }
     public SearchLieferschein SucheNachLieferschein(string stringInput)
     {

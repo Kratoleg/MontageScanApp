@@ -165,19 +165,15 @@ public partial class EingangsScanUI : Window
         eingangsScanTextBox.Clear();
         AuftragsListe.ScrollIntoView(AuftragsListe.Items[AuftragsListe.Items.Count - 1]);
     }
+
     private bool LieferscheinExistsCheck(string input)
     {
-        bool output;
-        try
+       SearchLieferschein wanted =  sqlLieferschein.SucheNachLieferschein(input);
+        if (wanted.EingangsTS.Year > 2000)
         {
-            sqlLieferschein.SucheNachLieferschein(input);
-            output = true;
+            return true;
         }
-        catch
-        {
-            output = false;
-        }
-        return output;
+        else return false;
     }
 
 

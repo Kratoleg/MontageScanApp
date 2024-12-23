@@ -65,35 +65,34 @@ public partial class MonteuerScanUI : Window
 
     private void saveLieferscheinToDb(string lieferschein)
     {
-        SearchLieferschein wanted = new SearchLieferschein { Lieferschein = lieferschein };
+        SearchLieferschein wanted = new SearchLieferschein();
 
-        //Lieferschein nicht gefunden. Wirft Fehler
-        try
+        //Lieferschein nicht gefunden
+        wanted = _sqlLs.SucheNachLieferschein(lieferschein);
+
+        if (wanted == null)
         {
+            wanted = new SearchLieferschein { Lieferschein = lieferschein};
+            _sqlLs.LieferscheinEingangsScan(wanted);
             wanted = _sqlLs.SucheNachLieferschein(wanted);
-        }
-        catch (Exception)
-        {
 
         }
 
-
-        //Wenn Storniert oder bereits montiert PopUp Message
         if (wanted.MontageTS.Year > 2000)
-        {
-            MessageBox.Show($"Lieferschein: {wanted.Lieferschein} wurde bereits montiert!\n\n Dowód dostawy został już przetworzony");
-        }
-        else if (wanted.Storniert == 1)
-        {
-            MessageBox.Show("Stop! Lieferschein wurde storniert!\n\nZamówienie zostało anulowane! Nie montuj!");
-        }
-        else if (wanted.MontageTS.Year < 2000 && wanted.Storniert == 0) 
-        {
-            wanted.MontageTS = DateTime.Now;
-            wanted.MitarbeiterId = _loggedInMitarbeiter.MitarbeiterId;
-            _sqlLs.LieferscheinMontageScan(wanted);
-            saveLieferscheinToDisplayList(wanted);
-        }
+            {
+                MessageBox.Show($"Lieferschein: {wanted.Lieferschein} wurde bereits montiert!\n\n Dowód dostawy został już przetworzony");
+            }
+            else if (wanted.Storniert == 1)
+            {
+                MessageBox.Show("Stop! Lieferschein wurde storniert!\n\nZamówienie zostało anulowane! Nie montuj!");
+            }
+            else if (wanted.MontageTS.Year < 2000 && wanted.Storniert == 0)
+            {
+                wanted.MontageTS = DateTime.Now;
+                wanted.MitarbeiterId = _loggedInMitarbeiter.MitarbeiterId;
+                _sqlLs.LieferscheinMontageScan(wanted);
+                saveLieferscheinToDisplayList(wanted);
+            }
 
     }
 
